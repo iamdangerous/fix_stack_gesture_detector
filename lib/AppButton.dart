@@ -6,53 +6,6 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return nestedWidget();
-//    return customReveal();
-//    return RevealWidget(Container(
-//        color: Colors.red,
-//        width: 300,
-//        height: 100,
-//        child: Row(
-//          children: <Widget>[
-//            Align(
-//              alignment: Alignment.center,
-//              child: GestureDetector(
-//                behavior: HitTestBehavior.translucent,
-//                onTapDown: (TapDownDetails details) {
-//                  print("onTapDown");
-//                },
-//                onTap: _print,
-//                child: Text(
-//                  "Hello1",
-//                  style: TextStyle(fontSize: 20),
-//                ),
-//              ),
-//            ),
-//            Align(
-//              alignment: Alignment.center,
-//              child: GestureDetector(
-//                onTap: _print,
-//                child: Text(
-//                  "Hello2",
-//                  style: TextStyle(fontSize: 20),
-//                ),
-//              ),
-//            ),
-//            Align(
-//              alignment: Alignment.center,
-//              child: GestureDetector(
-//                onTap: _print,
-//                child: Text(
-//                  "Hello3",
-//                  style: TextStyle(fontSize: 20),
-//                ),
-//              ),
-//            )
-//          ],
-//        )));
-  }
-
-  void _print() {
-    print("Awesome");
   }
 
   Widget customReveal() {
@@ -62,31 +15,41 @@ class AppButton extends StatelessWidget {
   Widget nestedWidget() {
     return Stack(
       children: <Widget>[
-        GestureDetector(
-          child: Container(
-            width: 100,
-            height: 100,
-            color: Colors.pink,
-            foregroundDecoration: BoxDecoration(color: Color.fromRGBO(155, 85, 250, 0.4)),
-          ),
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            print("Outside");
-          },
-        ),
-        GestureDetector(
-          child: Container(
-            foregroundDecoration: BoxDecoration(color: Color.fromRGBO(155, 85, 250, 0.4)),
-            color: Colors.green,
-            width: 50,
-            height: 50,
-          ),
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            print("Inside");
-          },
-        ),
+        getGestureWidget(100, 100, Colors.pink, "outside"),
+        getGestureWidget(50, 50, Colors.green, "inside"),
       ],
+    );
+  }
+
+
+  Widget getGestureWidget(double width, double height, Color color, String message){
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      child: Container(
+        color: color,
+        width: width,
+        height: height,
+      ),
+      onTap: () {
+        print(message);
+      },
+    );
+  }
+
+  Widget getAnimatedWidget(double width, double height, Color color, String message){
+    return AnimatedContainer(
+      height: height,
+      width: width,
+      duration: Duration(seconds: 2),
+      curve: Curves.easeIn,
+      child: Material(
+        color: color,
+        child: InkWell(
+          onTap: () {
+            print(message);
+          },
+        ),
+      ),
     );
   }
 }
